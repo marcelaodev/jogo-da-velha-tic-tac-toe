@@ -165,6 +165,7 @@ int linha, coluna, verificador, i, j;
 
 	while (1)
 	{
+		// inicio do jogo OU reínicio (já teve um vencedor)
 	    linha = 0, coluna = 0, turno = 1, CasasLivres = 9;
 
 		textbackground(BLACK);
@@ -176,30 +177,31 @@ int linha, coluna, verificador, i, j;
 			for (j=0;j<3;j++)
 				Tabuleiro[i][j]=0;
 
-		do
+		do // loop só acaba quando o tabuleiro tiver preenchdio
 		    {
-		    do
+		    do // loop só acaba quando o jogador escolhe uma casa em branco
 			{
 			verificador = 0;
 			PedirJogada(&linha, &coluna);
-				if (Tabuleiro[linha-1][coluna-1] != 0){
+				if (Tabuleiro[linha-1][coluna-1] != 0){ // verifica se a casa ta em branco
                     gotoxy(16, 13);
 				    printf("\n\n\n\nCasa ja foi marcada! Escolha outra");
 				    verificador = 1;
 				    Sleep(3000);
 				}
 			} while (verificador == 1);
-		    Tabuleiro[linha-1][coluna-1] = turno;
-		    MarcarGrade(&linha, &coluna);
+		    Tabuleiro[linha-1][coluna-1] = turno;	// preenche internamente a casa marcada
+		    MarcarGrade(&linha, &coluna);	// preenche na tela a casa marcada
 		    CasasLivres--;
 
-				if (turno == 1)
+				if (turno == 1)		// passa o turno pro proximo jogador
 					turno = 2;
 				else
 					turno = 1;
 
-			if (Ganhador() == 1)
+			if (Ganhador() == 1)	// verifica se existe alguma linha horizontal vertical diagonal
 				CasasLivres = 0;
+			// TODO (?) verificar que não existe possibilidade de vitoria, mesmo sem preencher todas as casas
 			else if (CasasLivres == 0)
 			{
 				gotoxy(3, 14);
